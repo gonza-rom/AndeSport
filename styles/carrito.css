@@ -1,0 +1,133 @@
+/* carrito.css */
+
+/* Estilo general del body */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Estilo del header */
+header {
+    background-color: orange;
+}
+
+header .logo {
+    margin: 0;
+    padding: 25px 30px;
+    color: antiquewhite;
+    font-size: 5em;
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: bold;
+    font-style: normal;
+}
+
+header .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+
+    
+}
+
+/* Estilo de la navegación */
+header nav {
+    display: flex;
+    margin: 0 20px;
+}
+
+header nav a {
+    padding: 5px 12px;
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+}
+
+header nav a:hover {
+    color: antiquewhite;
+}
+
+/* Estilo del contenedor principal */
+main {
+    margin-top: 20px;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+/* Estilo de la lista de productos */
+.list-group {
+    margin-bottom: 20px;
+}
+
+/* Estilo de cada producto en el carrito */
+.list-group-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    background-color: #ffffff;
+    transition: background-color 0.2s;
+}
+
+.list-group-item:hover {
+    background-color: #f1f1f1;
+}
+
+.img-thumbnail {
+    border-radius: 5px;
+}
+
+/* Estilo del resumen del carrito */
+.card {
+    border: none;
+}
+
+.card-title {
+    font-weight: bold;
+}
+
+/* Estilo de los botones */
+.btn {
+    width: 100%;
+}
+
+.btn-outline-danger {
+    padding: 0 10px;
+}
+
+/* Estilo del footer */
+footer {
+    background-color: #343a40;
+}
+
+footer p {
+    margin: 0;
+}
+
+footer a {
+    color: #ffffff;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    header .container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    header nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    header nav a {
+        margin-bottom: 5px;
+    }
+}

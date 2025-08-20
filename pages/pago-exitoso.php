@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago Exitoso - AndeSport</title>
+    <link rel="stylesheet" href="../styles/carrito.css"> <!-- Asegúrate de que la ruta sea correcta -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <p class="logo">AndeSport</p>
+        <nav>
+            <a href="../index.php">Inicio</a>
+            <a href="productos.php">Productos</a>
+            <a href="sobrenosotros.php">Sobre Nosotros</a>
+            <a href="contacto.php">Contacto</a>
+            <a href="inicio-sesion.php">Iniciar Sesión</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container mt-4 text-center">
+    <h1>¡Pago Exitoso!</h1>
+    <p>Gracias por tu compra. Tu pedido ha sido procesado con éxito.</p>
+    
+    <div class="alert alert-success" role="alert">
+        <strong>Número de Pedido:</strong> #123456789
+    </div>
+
+    <h2>Detalles del Pedido</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Producto 1</td>
+                <td>$120.00</td>
+                <td>1</td>
+                <td>$120.00</td>
+            </tr>
+            <tr>
+                <td>Producto 2</td>
+                <td>$120.00</td>
+                <td>1</td>
+                <td>$120.00</td>
+            </tr>
+            <tr>
+                <td>Producto 3</td>
+                <td>$120.00</td>
+                <td>1</td>
+                <td>$120.00</td>
+            </tr>
+            <tr>
+                <td>Envio</td>
+                <td>$20.00</td>
+                <td>1</td>
+                <td>$20.00</td>
+            </tr>
+            <tr>
+                <td colspan="3" class="text-end"><strong>Total</strong></td>
+                <td><strong>$380.00</strong></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Información de Contacto</h3>
+    <p>Si tienes alguna pregunta sobre tu pedido, por favor contacta con nosotros:</p>
+    <p>Email: soporte@andesport.com</p>
+    <p>Teléfono: +54 9 11 2345 6789</p>
+
+    <a href="../index.php" class="btn btn-secondary mt-4">Regresar al Inicio</a>
+</main>
+
+<footer class="mt-4">
+    <div class="container text-center">
+        <p class="text-light">&copy; 2024 AndeSport. Todos los derechos reservados.</p>
+        <p><a href="terminos.php">Términos y Condiciones</a> | <a href="privacidad.php">Política de Privacidad</a></p>
+    </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,32 @@
+/* Colores personalizados */
+:root {
+    --primary-color: #004c3f; /* Color principal para botones */
+    --accent-color: #f7931e; /* Color de acento para elementos interactivos */
+    --background-color: #f4f4f4;
+    --text-color: #333333;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.logo {
+    font-family: 'Bebas Neue', sans-serif;
+    color: var(--accent-color);
+    font-size: 2rem;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: darken(var(--primary-color), 10%);
+}
+
+.table th {
+    background-color: var(--primary-color);
+    color: white;
+}

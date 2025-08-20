@@ -1,0 +1,28 @@
+header {
+    background-color: #0d6efd;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.table-responsive {
+    margin-top: 20px;
+}
+
+table .low-stock {
+    color: red;
+    font-weight: bold;
+}
+
+.btn-add-product {
+    background-color: #ffc107;
+    border: none;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+}
+
+.badge {
+    font-size: 0.8em;
+    margin-left: 5px;
+}

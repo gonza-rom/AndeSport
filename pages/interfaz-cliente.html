@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Cliente</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Estilos personalizados de AndeSport */
+        :root {
+            --primary-color: orange;
+            --accent-color: #f7931e;
+            --background-color: #f4f4f4;
+            --text-color: #333333;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        header {
+            background-color: var(--primary-color);
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        nav a {
+            color: white;
+            margin-left: 1rem;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+
+        .card-title,
+        .card-header h3 {
+            color: var(--primary-color);
+        }
+
+        .btn-secondary {
+            background-color: var(--accent-color);
+            border: none;
+        }
+
+        .btn-secondary:hover {
+            background-color: darkorange;
+        }
+
+        .pagination .page-link {
+            color: var(--primary-color);
+            /* Color naranja */
+            text-decoration: none;
+            /* Quitar subrayado */
+        }
+
+        .pagination .page-link:hover {
+            color: darkorange;
+            /* Color al pasar el mouse */
+            background-color: transparent;
+            /* Fondo transparente */
+            border-color: transparent;
+            /* Sin borde al hacer hover */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Barra de navegación de AndeSport -->
+    <header>
+        <div class="container d-flex justify-content-between align-items-center">
+            <p class="logo">AndeSport - Panel de Cliente</p>
+            <nav>
+                <a href="../index.html">Inicio</a>
+                <a href="productos.html">Productos</a>
+                <a href="sobrenosotros.html">Sobre Nosotros</a>
+                <a href="contacto.html">Contacto</a>
+                <a href="inicio-sesion.html">Cerrar sesión</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <div class="container my-5">
+        <!-- Sección de Datos del Cliente -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h3 class="card-title">Datos del Cliente</h3>
+                <p><strong>Nombre:</strong> Juan Pérez</p>
+                <p><strong>Email:</strong> juan.perez@example.com</p>
+                <p><strong>Teléfono:</strong> +54 9 1234 5678</p>
+                <p><strong>Contraseña:</strong> *********</p>
+                <p><strong>Dirección: </strong> Calle Sumak Nro 47, San Fernando del Valle de Catamarca</p>
+                <p><strong>Provincia: </strong> Catamarca </p>
+                <p><strong>Ubicación en el mapa: </strong></p>
+                <div class="map-container" style="width: 100%; height: 300px; border: 1px solid #ddd;">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d438.5566199360863!2d-65.7661182754338!3d-28.435758977452092!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sar!4v1732906444320!5m2!1ses!2sar" 
+                        width="100%" 
+                        height="100%" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                    </iframe>
+                </div>
+                <br>
+                <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editarModal">Editar
+                    Datos</button>
+            </div>
+        </div>
+
+        <!-- Modal para editar datos del cliente -->
+        <div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editarModalLabel">Editar Datos del Cliente</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formEditarCliente">
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="nombre" value="Juan Pérez">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" value="juan.perez@example.com">
+                            </div>
+                            <div class="mb-3">
+                                <label for="telefono" class="form-label">Teléfono</label>
+                                <input type="text" class="form-control" id="telefono" value="+54 9 1234 5678">
+                            </div>
+                            <div class="mb-3">
+                                <label for="contraseña" class="form-label">Contraseña</label>
+                                <input type="text" class="form-control" id="contraseña" value="12345678">
+                            </div>
+                            <div class="mb-3">
+                                <label for="direccion" class="form-label">Direccion</label>
+                                <input type="text" class="form-control" id="direccion" value="Calle Sumak Nro 47, San Fernando del Valle de Catamarca">
+                            </div>
+                            <div class="mb-3">
+                                <label for="provincia" class="form-label">Provincia</label>
+                                <input type="text" class="form-control" id="nombre" value="Provincia">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" onclick="guardarCambios()">Guardar
+                            Cambios</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Pedidos -->
+        <div class="card">
+            <div class="card-header">
+                <h3>Mis Pedidos</h3>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered">
+                    <thead class="table-dark">
+                        <tr>
+                            <th># Pedido</th>
+                            <th>Fecha</th>
+                            <th>Productos</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>12345</td>
+                            <td>05/11/2024</td>
+                            <td>
+                                <ul>
+                                    <li>Carpa AndeSport X1</li>
+                                    <li>Mochila Aventura 65L</li>
+                                </ul>
+                            </td>
+                            <td>$500</td>
+                            <td><span class="badge bg-warning text-dark">Pendiente</span></td>
+                        </tr>
+                        <tr>
+                            <td>12346</td>
+                            <td>01/11/2024</td>
+                            <td>
+                                <ul>
+                                    <li>Calzado Trekking</li>
+                                </ul>
+                            </td>
+                            <td>$150</td>
+                            <td><span class="badge bg-primary">En Camino</span></td>
+                        </tr>
+                        <tr>
+                            <td>12347</td>
+                            <td>28/10/2024</td>
+                            <td>
+                                <ul>
+                                    <li>Gorra UV Protección</li>
+                                    <li>Botella de Agua 1L</li>
+                                </ul>
+                            </td>
+                            <td>$80</td>
+                            <td><span class="badge bg-secondary">Entregado</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center mt-3">
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">&copy; AndeSport</p>
+            <p class="mb-0">Te aseguramos CALIDAD en cada producto, embalaje seguro, y una excelente experiencia de
+                compra.</p>
+            <ul class="list-inline mt-3">
+                <li class="list-inline-item"><a href="#" class="text-white"><i class="fab fa-facebook-f"></i></a></li>
+                <li class="list-inline-item"><a href="#" class="text-white"><i class="fab fa-instagram"></i></a></li>
+                <li class="list-inline-item"><a href="#" class="text-white"><i class="fab fa-twitter"></i></a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function guardarCambios() {
+            const nombre = document.getElementById('nombre').value;
+            const email = document.getElementById('email').value;
+            const telefono = document.getElementById('telefono').value;
+
+            alert('Datos guardados: ' + nombre + ', ' + email + ', ' + telefono);
+        }
+    </script>
+</body>
+
+</html>

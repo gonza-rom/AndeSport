@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Panel de Administración - AndeSport</title>
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/administrador.css">
+</head>
+<body>
+    <!-- Encabezado -->
+    <header class="p-3 mb-3 border-bottom">
+        <div class="container d-flex align-items-center justify-content-between">
+            <h1 class="logo">AndeSport Admin</h1>
+            <button class="btn btn-primary" onclick="window.location.href='../index.html'">Cerrar Sesión</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Sección de navegación -->
+        <ul class="nav nav-pills mb-3" id="adminTabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link" id="ventas-tab" data-bs-toggle="pill" href="#ventas" role="tab">Ventas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="productos-tab" data-bs-toggle="pill" href="#productos" role="tab">Productos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="clientes-tab" data-bs-toggle="pill" href="#clientes" role="tab">Clientes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="proveedores-tab" data-bs-toggle="pill" href="#proveedores" role="tab">Proveedores</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="usuarios-tab" data-bs-toggle="pill" href="#usuarios" role="tab">Usuarios</a>
+            </li>
+        </ul>
+
+        <!-- Contenido de las secciones -->
+        <div class="tab-content" id="adminTabsContent">
+
+            <!-- Sección de Ventas -->
+            <div class="tab-pane fade" id="ventas" role="tabpanel">
+                <h2 class="mb-3">Ventas</h2>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID Venta</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Total</th>
+                            <th>Fecha</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Ejemplos de datos -->
+                        <tr>
+                            <td>201</td>
+                            <td>Mochila de Montaña</td>
+                            <td>3</td>
+                            <td>$450</td>
+                            <td>2024-10-28</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm">Editar</button>
+                                <button class="btn btn-danger btn-sm">Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Sección de Productos -->
+            <div class="tab-pane fade" id="productos" role="tabpanel">
+                <h2 class="mb-3">Productos</h2>
+                <a href="proovedor.html"><button class="btn btn-success mb-2">Agregar Producto</button></a>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID Producto</th>
+                            <th>Nombre</th>
+                            <th>Categoría</th>
+                            <th>Precio</th>
+                            <th>Stock</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Ejemplos de datos -->
+                        <tr>
+                            <td>301</td>
+                            <td>Saco de Dormir</td>
+                            <td>Camping</td>
+                            <td>$150</td>
+                            <td>20</td>
+                            <td>
+                                <a href="../pages/editar.html"><button class="btn btn-primary btn-sm">Editar</button></a>
+                                <button class="btn btn-danger btn-sm">Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Nueva Sección de Clientes -->
+            <div class="tab-pane fade" id="clientes" role="tabpanel">
+                <h2 class="mb-3">Clientes</h2>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID Cliente</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Ejemplos de clientes -->
+                        <tr>
+                            <td>101</td>
+                            <td>Lucía López</td>
+                            <td>lucia.lopez@email.com</td>
+                            <td>+54 9 1234 5678</td>
+                            <td>
+                                <a href="../pages/editarcliente.html"><button class="btn btn-primary btn-sm">Editar</button></a>
+                                <button class="btn btn-danger btn-sm">Eliminar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>102</td>
+                            <td>Gonzalo Romero</td>
+                            <td>l1231@email.com</td>
+                            <td>+54 9 1234 5678</td>
+                            <td>
+                                <a href="../pages/editarcliente.html"><button class="btn btn-primary btn-sm">Editar</button></a>
+                                <button class="btn btn-danger btn-sm">Eliminar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>103</td>
+                            <td>Juan Lopez</td>
+                            <td>l23432z@email.com</td>
+                            <td>+54 9 1234 5678</td>
+                            <td>
+                                <a href="../pages/editarcliente.html"><button class="btn btn-primary btn-sm">Editar</button></a>
+                                <button class="btn btn-danger btn-sm">Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Nueva Sección de Proveedores -->
+            <div class="tab-pane fade" id="proveedores" role="tabpanel">
+                <h2 class="mb-3">Proveedores</h2>
+                <a href="agregar-proveedor.html"><button class="btn btn-success mb-2">Agregar Proveedor</button></a>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID Proveedor</th>
+                            <th>Nombre</th>
+                            <th>Contacto</th>
+                            <th>Teléfono</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Ejemplos de proveedores -->
+                        <tr>
+                            <td>501</td>
+                            <td>Outdoor Supplies</td>
+                            <td>Juan Castro</td>
+                            <td>+54 9 8765 4321</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm">Editar</button>
+                                <button class="btn btn-danger btn-sm">Eliminar</button>
+                            </td>
+                        </tr>
+                        <!-- Ejemplos de proveedores -->
+                        <tr>
+                            <td>501</td>
+                            <td>Nike</td>
+                            <td>Gonzalo Romero</td>
+                            <td>+54 9 8765 6676</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm">Editar</button>
+                                <button class="btn btn-danger btn-sm">Eliminar</button>
+                            </td>
+                        </tr>
+                        <!-- Ejemplos de proveedores -->
+                        <tr>
+                            <td>501</td>
+                            <td>Columbia</td>
+                            <td>Tania Quiroga</td>
+                            <td>+54 9 8765 4214</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm">Editar</button>
+                                <button class="btn btn-danger btn-sm">Eliminar</button>
+                            </td>
+                        </tr>
+                        <!-- Ejemplos de proveedores -->
+                        <tr>
+                            <td>501</td>
+                            <td>Salomon</td>
+                            <td>Anahi Barrionuevo</td>
+                            <td>+54 9 8765 1231</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm">Editar</button>
+                                <button class="btn btn-danger btn-sm">Eliminar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>501</td>
+                            <td>THE NORTH FACE</td>
+                            <td>Lucas Barrojo</td>
+                            <td>+54 9 8765 1324</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm">Editar</button>
+                                <button class="btn btn-danger btn-sm">Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+             <!-- Nueva Sección de Usuarios -->
+             <div class="tab-pane fade" id="usuarios" role="tabpanel">
+                <h2 class="mb-3">Usuarios</h2>
+                <a href="nuevousuario.html"><button class="btn btn-success mb-2">Agregar Usuario</button></a>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID Usuario</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Rol</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Ejemplos de usuarios -->
+                        <tr>
+                            <td>1</td>
+                            <td>Ana Gómez</td>
+                            <td>ana.gomez@andesport.com</td>
+                            <td>Administrador</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm">Editar</button>
+                                <button class="btn btn-danger btn-sm">Eliminar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Lucas Martínez</td>
+                            <td>lucas.martinez@andesport.com</td>
+                            <td>Encargado de stock</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm">Editar</button>
+                                <button class="btn btn-danger btn-sm">Eliminar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Martina Ruiz</td>
+                            <td>martina.ruiz@andesport.com</td>
+                            <td>Repartidor</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm">Editar</button>
+                                <button class="btn btn-danger btn-sm">Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+/* Colores personalizados */
+:root {
+    --primary-color: #004c3f; /* Color del botón y encabezado */
+    --accent-color: #f7931e; /* Color de acento para enlaces y logo */
+    --background-color: #f4f4f4; /* Fondo de página */
+    --text-color: #333333; /* Color del texto */
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.logo {
+    font-family: 'Bebas Neue', sans-serif;
+    color: var(--accent-color);
+    font-size: 2rem;
+}
+
+.card {
+    border: none;
+    background-color: #ffffff;
+    border-radius: 10px;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: darken(var(--primary-color), 10%);
+}
+
+.form-label {
+    color: var(--text-color);
+}
+
+.back-to-login {
+    color: var(--accent-color);
+}
+
+.back-to-login:hover {
+    text-decoration: underline;
+    color: darken(var(--accent-color), 10%);
+}

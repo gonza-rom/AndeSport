@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Demostración de captura de cámara </title>
+    <style>
+        #camera {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        #photo {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1> Acceder a la cámara y capturar foto </h1>
+
+    <video id="camera" autoplay> </video>
+    <button id="capture-btn"> Capturar foto </button>
+    <canvas id="photo"> </canvas>
+    <button id="cancelarFoto" style="display: none;">❌ Cancelar foto</button>
+
+    <script>
+        // Acceder a los elementos del DOM 
+        const video = document.getElementById('camera');
+        const canvas = document.getElementById('photo');
+        const captureBtn = document.getElementById('capture-btn');
+        const cancelarBtn = document.getElementById('cancelarFoto');
+        const context = canvas.getContext('2d');
+
+        let stream; // guardamos el stream para poder reiniciar luego
+
+        // Solicitar acceso a la cámara del usuario
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then((s) => {
+                stream = s;
+                video.srcObject = stream;
+            })
+            .catch((error) => {
+                console.error("Error al acceder a la cámara: ", error);
+            });
+
+        // Capturar foto al hacer clic en el botón
+        captureBtn.addEventListener('click', () => {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Mostrar el canvas con la foto capturada
+            canvas.style.display = 'block';
+
+            // Ocultar la cámara
+            video.style.display = 'none';
+
+            //Ocultamos el boton capturar y mostramos para eliminar
+            captureBtn.style.display = 'none';
+            cancelarBtn.style.display = 'inline';
+
+            // Detenemos la cámara para liberar recursos
+            const tracks = stream.getTracks();
+            tracks.forEach(track => track.stop());
+        });
+
+        // Cancelar la foto y volver a mostrar la cámara
+        cancelarBtn.addEventListener('click', () => {
+            canvas.style.display = 'none';
+            video.style.display = 'block';
+            captureBtn.style.display = 'inline';
+            cancelarBtn.style.display = 'none';
+
+            // Reiniciar cámara
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then((s) => {
+                    stream = s;
+                    video.srcObject = stream;
+                })
+                .catch((error) => {
+                    console.error("No se pudo reactivar la cámara: ", error);
+                });
+        });
+    </script>
+</body>
+
+</html>

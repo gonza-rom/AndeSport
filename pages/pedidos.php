@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Pedidos - Repartidores</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="p-3 mb-3 border-bottom bg-dark">
+        <div class="container d-flex align-items-center justify-content-between text-light">
+            <h1 class="logo">AndeSport Pedidos</h1>
+            <button class="btn btn-warning" onclick="window.location.href='../index.php'">Cerrar Sesión</button>
+        </div>
+    </header>
+    <div class="container my-5">
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th># Pedido</th>
+                        <th>Cliente</th>
+                        <th>Dirección de Entrega</th>
+                        <th>Teléfono</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-bs-toggle="collapse" data-bs-target="#detalle-12345" aria-expanded="false" aria-controls="detalle-12345">
+                        <td>12345</td>
+                        <td>Juan Pérez</td>
+                        <td>
+                            <a href="https://www.google.com/maps?q=Calle+Falsa+123" target="_blank">
+                                Calle Falsa 123
+                            </a>
+                            <br>
+                            <iframe 
+                                width="150" 
+                                height="100" 
+                                frameborder="0" 
+                                style="border:0" 
+                                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAA46K7kuviWb9mZseP7ulN6285zMUcEXM&q=Calle+Falsa+123" 
+                                allowfullscreen>
+                            </iframe>
+                        </td>                        
+                        <td>+54 9 1234 5678</td>
+                        <td>
+                            <span class="badge bg-warning text-dark">Pendiente</span>
+                        </td>
+                        <td>
+                            <button class="btn btn-success btn-sm">Marcar como En Camino</button>
+                            <button class="btn btn-info btn-sm">Contactar Cliente</button>
+                        </td>
+                    </tr>
+                    <tr class="collapse" id="detalle-12345">
+                        <td colspan="6">
+                            <div>
+                                <h5>Detalles del Pedido</h5>
+                                <ul>
+                                    <li>Producto: Mochila de Montaña - Cantidad: 1</li>
+                                    <li>Producto: Linterna LED - Cantidad: 2</li>
+                                    <li>Producto: Botella Térmica - Cantidad: 1</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr data-bs-toggle="collapse" data-bs-target="#detalle-12346" aria-expanded="false" aria-controls="detalle-12346">
+                        <td>12346</td>
+                        <td>María Gómez</td>
+                        <td>
+                            <a href="https://www.google.com/maps?q=Avenida+Siempre+Viva+456" target="_blank">
+                                Avenida Siempre Viva 456
+                            </a>
+                            <br>
+                            <iframe 
+                                width="150" 
+                                height="100" 
+                                frameborder="0" 
+                                style="border:0" 
+                                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAA46K7kuviWb9mZseP7ulN6285zMUcEXM&q=Avenida+Siempre+Viva+456" 
+                                allowfullscreen>
+                            </iframe>
+                        </td>   
+                        <td>+54 9 8765 4321</td>
+                        <td>
+                            <span class="badge bg-primary">En Camino</span>
+                        </td>
+                        <td>
+                            <button class="btn btn-success btn-sm">Marcar como Entregado</button>
+                            <button class="btn btn-info btn-sm">Contactar Cliente</button>
+                        </td>
+                    </tr>
+                    <tr class="collapse" id="detalle-12346">
+                        <td colspan="6">
+                            <div>
+                                <h5>Detalles del Pedido</h5>
+                                <ul>
+                                    <li>Producto: Cuerda de Escalada - Cantidad: 1</li>
+                                    <li>Producto: Carpa para 2 Personas - Cantidad: 1</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr data-bs-toggle="collapse" data-bs-target="#detalle-12347" aria-expanded="false" aria-controls="detalle-12347">
+                        <td>12347</td>
+                        <td>Lucas Martínez</td>
+                        <td>
+                            <a href="https://www.google.com/maps?q=Camino+Real+789" target="_blank">
+                                Camino Real 789
+                            </a>
+                            <br>
+                            <iframe 
+                                width="150" 
+                                height="100" 
+                                frameborder="0" 
+                                style="border:0" 
+                                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAA46K7kuviWb9mZseP7ulN6285zMUcEXM&q=Camino+Real+789" 
+                                allowfullscreen>
+                            </iframe>
+                        </td>   
+                        <td>+54 9 1234 8765</td>
+                        <td>
+                            <span class="badge bg-secondary">Entregado</span>
+                        </td>
+                        <td>
+                            <button class="btn btn-info btn-sm" disabled>Contactar Cliente</button>
+                        </td>
+                    </tr>
+                    <tr class="collapse" id="detalle-12347">
+                        <td colspan="6">
+                            <div>
+                                <h5>Detalles del Pedido</h5>
+                                <ul>
+                                    <li>Producto: Saco de Dormir - Cantidad: 1</li>
+                                    <li>Producto: Kit de Supervivencia - Cantidad: 1</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr data-bs-toggle="collapse" data-bs-target="#detalle-12348" aria-expanded="false" aria-controls="detalle-12348">
+                        <td>12348</td>
+                        <td>Laura López</td>
+                        <td>
+                            <a href="https://www.google.com/maps?q=Barrio+los+pinos+202" target="_blank">
+                                Barrio los Pinos 202
+                            </a>
+                            <br>
+                            <iframe 
+                                width="150" 
+                                height="100" 
+                                frameborder="0" 
+                                style="border:0" 
+                                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAA46K7kuviWb9mZseP7ulN6285zMUcEXM&q=Barrio+los+pinos+202" 
+                                allowfullscreen>
+                            </iframe>
+                        </td>   
+                        <td>+54 9 5678 1234</td>
+                        <td>
+                            <span class="badge bg-warning text-dark">Pendiente</span>
+                        </td>
+                        <td>
+                            <button class="btn btn-success btn-sm">Marcar como En Camino</button>
+                            <button class="btn btn-info btn-sm">Contactar Cliente</button>
+                        </td>
+                    </tr>
+                    <tr class="collapse" id="detalle-12348">
+                        <td colspan="6">
+                            <div>
+                                <h5>Detalles del Pedido</h5>
+                                <ul>
+                                    <li>Producto: GPS de Montaña - Cantidad: 1</li>
+                                    <li>Producto: Brújula - Cantidad: 2</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

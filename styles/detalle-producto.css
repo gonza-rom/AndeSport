@@ -1,0 +1,173 @@
+/* styles.css */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+header {
+    background-color: orange; /* Color naranja de AndeSport */
+    color: antiquewhite;
+    padding: 20px;
+    text-align: center;
+}
+
+header h1 {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 5em;
+    margin-bottom: 10px;
+}
+
+header nav a {
+    color: black;
+    margin: 0 10px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+header nav a:hover {
+    text-decoration: underline;
+}
+
+main {
+    padding: 20px;
+}
+
+.producto-detalle {
+    display: flex;
+    gap: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.imagen-producto img {
+    width: 300px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.info-producto {
+    flex: 1;
+}
+
+.info-producto h2 {
+    color: #FF6F00;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.precio {
+    font-size: 1.6rem;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.descripcion {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.caracteristicas {
+    list-style-type: none;
+    padding: 0;
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.caracteristicas li {
+    margin-bottom: 5px;
+}
+
+.btn-agregar-carrito {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #FF6F00;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.btn-agregar-carrito:hover {
+    background-color: #e65c00;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+footer p {
+    font-size: 0.9rem;
+}
+
+/* Contenedor de breadcrumb */
+.ui-pdp-breadcrumb {
+    display: flex;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #333;
+    background-color: #f4f4f4; /* Color de fondo para hacerlo más visible */
+    padding: 10px 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Enlaces dentro del breadcrumb */
+.ui-pdp-breadcrumb__link {
+    color: orange;
+    text-decoration: none;
+    margin-right: 5px;
+}
+
+.ui-pdp-breadcrumb__link:hover {
+    text-decoration: underline;
+}
+
+/* Elementos de la lista en el breadcrumb */
+.andes-breadcrumb__item {
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Chevron (flecha) separador entre elementos */
+.andes-breadcrumb__chevron {
+    display: inline-flex;
+    margin: 0 8px; /* Ajusta el espacio entre los elementos */
+}
+
+.andes-breadcrumb__chevron svg path {
+    stroke: #666;
+}
+
+/* Centrar el breadcrumb y expandirlo a lo largo de la pantalla */
+.ui-pdp-container__row {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+}
+
+.ui-pdp-breadcrumb_link, .andes-breadcrumb_item {
+    font-size: 14px; /* Ajusta el tamaño si lo necesitas */
+}

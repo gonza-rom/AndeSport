@@ -1,113 +1,182 @@
+<?php
+session_start();
+include '../includes/conexion.php';
+
+if (!isset($_SESSION['id_usuario'])) {
+    $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
+    header("Location: inicio-sesion.php");
+    exit;
+}
+
+$errores = [];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $tipo_pago = $_POST['tipo_pago'];
+    $tarjeta = $_POST['tarjeta'] ?? '';
+    $mes = $_POST['mes'] ?? '';
+    $anio = $_POST['anio'] ?? '';
+    $codigo = $_POST['codigo'] ?? '';
+    $nombre_titular = trim($_POST['nombre_titular'] ?? '');
+    $apellido_titular = trim($_POST['apellido_titular'] ?? '');
+    $dni = $_POST['dni'] ?? '';
+    $marca_tarjeta = $_POST['marca_tarjeta'] ?? '';
+    $cuotas = $_POST['cuotas'] ?? '';
+
+    // Validaciones
+    if (!in_array($tipo_pago, ['tarjeta', 'efectivo'])) {
+        $errores[] = "Seleccione un tipo de pago válido.";
+    }
+
+    if ($tipo_pago === 'tarjeta') {
+        if (!preg_match('/^\d{16}$/', $tarjeta)) {
+            $errores[] = "Número de tarjeta inválido. Debe tener 16 dígitos.";
+        }
+        if (!preg_match('/^(0[1-9]|1[0-2])$/', $mes)) {
+            $errores[] = "Mes de vencimiento inválido.";
+        }
+        if (!preg_match('/^\d{2}$/', $anio)) {
+            $errores[] = "Año de vencimiento inválido (dos dígitos).";
+        }
+        if (!preg_match('/^\d{3}$/', $codigo)) {
+            $errores[] = "Código de seguridad inválido. Debe tener 3 dígitos.";
+        }
+        if (empty($nombre_titular) || empty($apellido_titular)) {
+            $errores[] = "Debe ingresar nombre y apellido del titular.";
+        }
+        if (!preg_match('/^\d{7,9}$/', $dni)) {
+            $errores[] = "DNI inválido. Solo números (7 a 9 dígitos).";
+        }
+        if (!in_array($marca_tarjeta, ['Visa', 'Mastercard'])) {
+            $errores[] = "Debe seleccionar una tarjeta válida.";
+        }
+        if (!in_array($cuotas, ['3','6','9','12'])) {
+            $errores[] = "Seleccione una cantidad de cuotas válida.";
+        }
+    }
+
+    if (empty($errores)) {
+        // Guardar en sesión
+        $_SESSION['pago'] = [
+            'tipo_pago' => $tipo_pago,
+            'tarjeta' => $tarjeta,
+            'mes' => $mes,
+            'anio' => $anio,
+            'codigo' => $codigo,
+            'nombre_titular' => $nombre_titular,
+            'apellido_titular' => $apellido_titular,
+            'dni' => $dni,
+            'marca_tarjeta' => $marca_tarjeta,
+            'cuotas' => $cuotas
+        ];
+        header("Location: resumen.php");
+        exit;
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proceder al Pago - AndeSport</title>
-    <link rel="stylesheet" href="../styles/carrito.css"> <!-- Asegúrate de que la ruta sea correcta -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Pago</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body>
+<body class="container mt-5">
 
-<header>
-    <div class="container d-flex justify-content-between align-items-center">
-        <p class="logo">AndeSport</p>
-        <nav>
-            <a href="../index.php">Inicio</a>
-            <a href="productos.php">Productos</a>
-            <a href="sobrenosotros.php">Sobre Nosotros</a>
-            <a href="contacto.php">Contacto</a>
-            <a href="inicio-sesion.php">Iniciar Sesión</a>
-        </nav>
-        
-    </div>
-</header>
+<nav class="d-flex justify-content-between flex-column flex-md-row mb-4">
+    <ul class="d-flex m-0 list-unstyled gap-3">
+        <li id="carrito"><p>Carrito</p></li>
+        <li id="datos"><p>Datos</p></li>
+        <li id="entrega"><p>Entrega</p></li>
+        <li id="pago" class="active"><p><strong>Pago</strong></p></li>
+        <li id="resumen"><p>Resumen</p></li>
+    </ul>
+</nav>
 
-<main class="container mt-4">
-    <h1>Proceder al Pago</h1>
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-warning text-dark">Tipo de Pago</div>
+    <div class="card-body">
+        <?php if ($errores): ?>
+            <div class="alert alert-danger">
+                <ul>
+                    <?php foreach ($errores as $error): ?>
+                        <li><?php echo $error; ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
 
-    <div class="row">
-        <div class="col-md-8">
-            <h2>Detalles de Envío</h2>
-            <form>
-                <div class="mb-3">
-                    <label for="nombre" class="form-label">Nombre Completo</label>
-                    <input type="text" class="form-control" id="nombre" required>
-                </div>
-                <div class="mb-3">
-                    <label for="direccion" class="form-label">Dirección de Envío</label>
-                    <input type="text" class="form-control" id="direccion" required>
-                </div>
-                <div class="mb-3">
-                    <label for="telefono" class="form-label">Teléfono</label>
-                    <input type="tel" class="form-control" id="telefono" required>
-                </div>
-            </form>
+        <form method="POST">
+            <div class="mb-3">
+                <label class="form-label">Tipo de pago</label>
+                <select name="tipo_pago" class="form-select" required onchange="toggleTarjeta(this.value)">
+                    <option value="">Seleccione</option>
+                    <option value="efectivo" <?php if(!empty($_POST['tipo_pago']) && $_POST['tipo_pago']=='efectivo') echo 'selected'; ?>>Efectivo</option>
+                    <option value="tarjeta" <?php if(!empty($_POST['tipo_pago']) && $_POST['tipo_pago']=='tarjeta') echo 'selected'; ?>>Tarjeta</option>
+                </select>
+            </div>
 
-            <h2>Método de Pago</h2>
-            <form>
+            <div id="tarjetaFields" style="display: <?php echo (!empty($_POST['tipo_pago']) && $_POST['tipo_pago']=='tarjeta') ? 'block' : 'none'; ?>;">
                 <div class="mb-3">
-                    <label for="tarjeta" class="form-label">Número de Tarjeta</label>
-                    <input type="text" class="form-control" id="tarjeta" required>
+                    <label class="form-label">Número de tarjeta</label>
+                    <input type="text" name="tarjeta" class="form-control" maxlength="16" value="<?php echo $_POST['tarjeta'] ?? ''; ?>">
                 </div>
-                <div class="mb-3">
-                    <label for="fecha-expiracion" class="form-label">Fecha de Expiración</label>
-                    <input type="text" class="form-control" id="fecha-expiracion" placeholder="MM/AA" required>
-                </div>
-                <div class="mb-3">
-                    <label for="cvv" class="form-label">CVV</label>
-                    <input type="text" class="form-control" id="cvv" required>
-                </div>
-            </form>
-        </div>
 
-        <div class="col-md-4">
-            <h2>Resumen de la Compra</h2>
-            <div class="list-group">
-                <div class="list-group-item d-flex justify-content-between align-items-center">
-                    Producto 1
-                    <span>$120.00</span>
+                <div class="mb-3">
+                    <label class="form-label">Fecha de vencimiento</label>
+                    <div class="d-flex gap-2">
+                        <input type="text" name="mes" class="form-control" maxlength="2" placeholder="MM" style="max-width: 80px;" value="<?php echo $_POST['mes'] ?? ''; ?>">
+                        <input type="text" name="anio" class="form-control" maxlength="2" placeholder="AA" style="max-width: 80px;" value="<?php echo $_POST['anio'] ?? ''; ?>">
+                    </div>
                 </div>
-                <div class="list-group-item d-flex justify-content-between align-items-center">
-                    Producto 2
-                    <span>$120.00</span>
+
+                <div class="mb-3">
+                    <label class="form-label">Código de seguridad (CVV)</label>
+                    <input type="password" name="codigo" class="form-control" maxlength="3" value="<?php echo $_POST['codigo'] ?? ''; ?>">
                 </div>
-                <div class="list-group-item d-flex justify-content-between align-items-center">
-                    Producto 1
-                    <span>$120.00</span>
+
+                <div class="mb-3">
+                    <label class="form-label">Nombre del titular</label>
+                    <input type="text" name="nombre_titular" class="form-control" value="<?php echo $_POST['nombre_titular'] ?? ''; ?>">
                 </div>
-                <div class="list-group-item d-flex justify-content-between align-items-center">
-                    Envio
-                    <span>$20</span>
+                <div class="mb-3">
+                    <label class="form-label">Apellido del titular</label>
+                    <input type="text" name="apellido_titular" class="form-control" value="<?php echo $_POST['apellido_titular'] ?? ''; ?>">
                 </div>
-                <div class="list-group-item d-flex justify-content-between align-items-center">
-                    <strong>Total</strong>
-                    <strong>$380.00</strong>
+                <div class="mb-3">
+                    <label class="form-label">DNI del titular</label>
+                    <input type="text" name="dni" class="form-control" maxlength="9" value="<?php echo $_POST['dni'] ?? ''; ?>">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Marca de la tarjeta</label>
+                    <select name="marca_tarjeta" class="form-select">
+                        <option value="">Seleccione</option>
+                        <option value="Visa" <?php if(!empty($_POST['marca_tarjeta']) && $_POST['marca_tarjeta']=='Visa') echo 'selected'; ?>>Visa Online</option>
+                        <option value="Mastercard" <?php if(!empty($_POST['marca_tarjeta']) && $_POST['marca_tarjeta']=='Mastercard') echo 'selected'; ?>>Mastercard Online</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Cantidad de cuotas</label>
+                    <select name="cuotas" class="form-select">
+                        <option value="">Seleccione</option>
+                        <?php foreach ([3,6,9,12] as $op): ?>
+                            <option value="<?php echo $op; ?>" <?php if(!empty($_POST['cuotas']) && $_POST['cuotas']==$op) echo 'selected'; ?>><?php echo $op; ?> cuotas</option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <div class="mt-4">
-        <button class="btn btn-warning w-100 mt-3" onclick="window.location.href='pago-exitoso.php'">Proceder al pago</button>
+            <button type="submit" class="btn btn-success">Continuar</button>
+            <a href="entrega.php" class="btn btn-secondary">Volver</a>
+        </form>
     </div>
-</main>
-<footer class="bg-dark text-white py-4 mt-5">
-    <div class="container text-center">
-        <p class="mb-0">&copy; AndeSport</p>
-        <p class="mb-0">Te aseguramos CALIDAD en cada producto, embalaje seguro, y una excelente experiencia de compra.</p>
-        <ul class="list-inline mt-3">
-            <li class="list-inline-item"><a href="#" class="text-white">Facebook</a></li>
-            <li class="list-inline-item"><a href="#" class="text-white">Instagram</a></li>
-            <li class="list-inline-item"><a href="#" class="text-white">Twitter</a></li>
-        </ul>
-    </div>
-</footer>
+</div>
+
+<script>
+function toggleTarjeta(value) {
+    document.getElementById('tarjetaFields').style.display = value === 'tarjeta' ? 'block' : 'none';
+}
+</script>
 
 </body>
 </html>

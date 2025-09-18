@@ -25,39 +25,24 @@ include '../includes/conexion.php';
             <p class="logo">AndeSport</p>
 
             <nav class="barra-navegacion">
-
                 <ul class="menu">
-
                 <div class="nav-saludo">
                     <?php if (isset($_SESSION['nombre'])): ?>
                         <?php if ($_SESSION['rol'] === 'cliente'): ?>
-                            <li><a class="saludo" href="interfaz-cliente.php">
-                                Hola, <?php echo htmlspecialchars($_SESSION['nombre']); ?>
-                            </a></li>
+                            <li><a class="saludo" href="interfaz-cliente.php">Hola, <?php echo htmlspecialchars($_SESSION['nombre']); ?></a></li>
                         <?php elseif ($_SESSION['rol'] === 'admin'): ?>
-                            <li><a class="saludo" href="administrador.php">
-                                Hola, <?php echo htmlspecialchars($_SESSION['nombre']); ?>
-                            </a></li>
+                            <li><a class="saludo" href="administrador.php">Hola, <?php echo htmlspecialchars($_SESSION['nombre']); ?></a></li>
                         <?php elseif ($_SESSION['rol'] === 'gerente'): ?>
-                            <li><a class="saludo" href="gerente.php">
-                                Hola, <?php echo htmlspecialchars($_SESSION['nombre']); ?>
-                            </a></li>
+                            <li><a class="saludo" href="gerente.php">Hola, <?php echo htmlspecialchars($_SESSION['nombre']); ?></a></li>
                         <?php elseif ($_SESSION['rol'] === 'repartidor'): ?>
-                            <li><a class="saludo" href="pedidos.php">
-                                Hola, <?php echo htmlspecialchars($_SESSION['nombre']); ?>
-                            </a></li>
+                            <li><a class="saludo" href="pedidos.php">Hola, <?php echo htmlspecialchars($_SESSION['nombre']); ?></a></li>
                         <?php elseif ($_SESSION['rol'] === 'stock'): ?>
-                            <li><a class="saludo" href="controlstock.php">
-                                Hola, <?php echo htmlspecialchars($_SESSION['nombre']); ?>
-                            </a></li>
+                            <li><a class="saludo" href="controlstock.php">Hola, <?php echo htmlspecialchars($_SESSION['nombre']); ?></a></li>
                         <?php else: ?>
-                            <li><span class="saludo">
-                                Hola, <?php echo htmlspecialchars($_SESSION['nombre']); ?>
-                            </span></li>
+                            <li><span class="saludo">Hola, <?php echo htmlspecialchars($_SESSION['nombre']); ?></span></li>
                         <?php endif; ?>
                     <?php endif; ?>
                 </div>
-
                     <li><a href="../index.php">Inicio</a></li>
                     <li><a href="sobrenosotros.php">Sobre Nosotros</a></li>
                     <li><a href="contacto.php">Contacto</a></li>
@@ -74,29 +59,22 @@ include '../includes/conexion.php';
         </div>
     </header>
     
-    <!-- Controles de paginación -->
     <main class="container mt-5">
         <h1 class="text-center mb-4">Catálogo de Productos</h1>
-        <nav aria-label="Paginación de productos" class="mt-4">
-            <ul class="pagination justify-content-center">
-                <li class="page-item disabled" id="prev-page">
-                    <a class="page-link text-danger" href="#" tabindex="-1">Anterior</a>
-                </li>
-                <!-- Los números de página serán generados dinámicamente -->
-                <li class="page-item" id="next-page">
-                    <a class="page-link text-danger" href="#">Siguiente</a>
-                </li>
-            </ul>
-        </nav>
-        <div class="d-flex justify-content-center">
+
+        <!-- Barra de búsqueda -->
+        <div class="d-flex justify-content-center mb-4">
             <input type="text" id="search-bar" class="form-control w-50" placeholder="Buscar producto por nombre...">
         </div>
-
-        <div class="d-flex justify-content-center mt-4">
-            <!-- Filtros a la izquierda -->
+         <!-- Carrito flotante -->
+        <div class="cart-icon position-fixed top-0 end-0 m-4" style="cursor:pointer; z-index:1050;">
+            <i class="fas fa-shopping-cart fa-2x"></i>
+            <div class="cart-count" id="cart-count">0</div>
+        </div>               
+        <div class="d-flex">
+            <!-- Filtros -->
             <form method="GET" class="filters bg-white p-4 rounded me-4" style="width: 200px;">
                 <h2>Filtros</h2>
-
                 <div class="mb-3">
                     <label for="category">Categoría</label>
                     <select id="category" name="category" class="form-select">
@@ -106,174 +84,179 @@ include '../includes/conexion.php';
                         <option value="Calzado" <?= (isset($_GET['category']) && $_GET['category'] == 'Calzado') ? 'selected' : '' ?>>Calzado</option>
                     </select>
                 </div>
-
                 <button type="submit" class="btn btn-warning w-100">Aplicar Filtros</button>
             </form>
 
-        <!-- Productos a la derecha -->
-        <section class="product-list">
-            <!-- Aquí irán las tarjetas de los productos -->
-            <?php
-            // procesar filtro
-            $categoriaFiltro = '';
-            if (isset($_GET['category']) && $_GET['category'] !== '') {
-                $categoriaFiltro = strtolower(trim($_GET['category']));
-            }
+            <!-- Lista de productos -->
+            <section class="product-list d-flex flex-wrap gap-3">
+                <?php
+                $categoriaFiltro = '';
+                if (isset($_GET['category']) && $_GET['category'] !== '') {
+                    $categoriaFiltro = strtolower(trim($_GET['category']));
+                }
 
-            // armar la consulta
-            $sql = "SELECT p.id_producto, p.nombre, p.descripcion, p.precio, p.stock, p.img_producto, c.nombre_categoria
-                    FROM producto p
-                    JOIN categorias c ON p.id_categoria = c.id_categoria";
+                $sql = "SELECT p.id_producto, p.nombre, p.descripcion, p.precio, p.stock, p.img_producto, c.nombre_categoria
+                        FROM producto p
+                        JOIN categorias c ON p.id_categoria = c.id_categoria";
 
-            if ($categoriaFiltro !== '') {
-                $categoriaFiltroSQL = $conexion->real_escape_string($categoriaFiltro);
-                $sql .= " WHERE LOWER(c.nombre_categoria) = '$categoriaFiltroSQL'";
-            }
+                if ($categoriaFiltro !== '') {
+                    $categoriaFiltroSQL = $conexion->real_escape_string($categoriaFiltro);
+                    $sql .= " WHERE LOWER(c.nombre_categoria) = '$categoriaFiltroSQL'";
+                }
 
-            $resultado = $conexion->query($sql);
+                $resultado = $conexion->query($sql);
 
-            if ($resultado && $resultado->num_rows > 0):
-                while ($row = $resultado->fetch_assoc()):
-                    $id = $row['id_producto'];
-                    $nombre = htmlspecialchars($row['nombre']);
-                    $descripcion = htmlspecialchars($row['descripcion']);
-                    $precio = number_format($row['precio'], 2);
-                    $categoria = htmlspecialchars(strtolower($row['nombre_categoria']));
-                    $img = !empty($row['img_producto']) ? htmlspecialchars($row['img_producto']) : 'default.png';
-            ?>
-                <div class="product-card" data-category="<?php echo $categoria; ?>">
-                    <a href="detalle-producto.php?id=<?php echo $id; ?>">
-                        <img src="../<?php echo $img; ?>" alt="<?php echo $nombre; ?>">
-                        <h3><?php echo $nombre; ?></h3>
-                        <p>$<?php echo $precio; ?></p>
-                        <button>Añadir al carrito</button>
-                    </a>
-                </div>
-            <?php
-                endwhile;
-            else:
-            ?>
-                <p class="text-center">No hay productos disponibles.</p>
-            <?php
-            endif;
-            ?>
-            <!-- Añadir más productos según sea necesario -->
-        </section>
+                if ($resultado && $resultado->num_rows > 0):
+                    while ($row = $resultado->fetch_assoc()):
+                        $id = $row['id_producto'];
+                        $nombre = htmlspecialchars($row['nombre']);
+                        $descripcion = htmlspecialchars($row['descripcion']);
+                        $precio = $row['precio']; // valor crudo
+                        $categoria = htmlspecialchars(strtolower($row['nombre_categoria']));
+                        $img = !empty($row['img_producto']) ? htmlspecialchars($row['img_producto']) : 'default.png';
+                ?>
+                    <div class="product-card" 
+                        data-id="<?= $id ?>" 
+                        data-nombre="<?= $nombre ?>" 
+                        data-precio="<?= $precio ?>" 
+                        data-img="../<?= $img ?>">
+                        <img src="../<?= $img ?>" alt="<?= $nombre ?>" style="max-width:150px; height:150px; object-fit:cover;">
+                        <h3><?= $nombre ?></h3>
+                        <p>$<?= number_format($precio, 2, '.', ',') ?></p>
+                        <button class="btn btn-success add-to-cart">Añadir al carrito</button>
+                        <a href="detalle-producto.php?id=<?= $id ?>" class="btn btn-info">Ver detalle</a>
+                    </div>
+                <?php
+                    endwhile;
+                else:
+                    echo "<p>No hay productos disponibles.</p>";
+                endif;
+                ?>
+            </section>
+        </div>
     </main>
+                
+    <!-- Modal del carrito -->
+<div class="modal fade" id="cartModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Carrito de compras</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="cart-items">
+                    <p>Tu carrito está vacío</p>
+                </div>
+                <div class="mt-3 text-end">
+                    <h5>Total: $<span id="cart-total">0</span></h5>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button class="btn btn-success" id="btn-finalizar">Finalizar compra</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <!-- Footer -->
+
     <footer class="bg-dark text-white py-4 mt-5">
         <div class="container text-center">
             <p class="mb-0">&copy; AndeSport</p>
             <p class="mb-0">Te aseguramos CALIDAD en cada producto, embalaje seguro, y una excelente experiencia de compra.</p>
-            <ul class="list-inline mt-3">
-                <li class="list-inline-item"><a href="#" class="text-white"><i class="fab fa-facebook-f"></i></a></li>
-                <li class="list-inline-item"><a href="#" class="text-white"><i class="fab fa-instagram"></i></a></li>
-                <li class="list-inline-item"><a href="#" class="text-white"><i class="fab fa-twitter"></i></a></li>
-            </ul>
         </div>
     </footer>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
     <script>
-        const priceInput = document.getElementById('price');
-        const priceValue = document.getElementById('price-value');
+    let carrito = [];
+    const cartCount = document.getElementById("cart-count");
+    const cartItems = document.getElementById("cart-items");
+    const cartTotal = document.getElementById("cart-total");
 
-        priceInput.addEventListener('input', () => {
-            priceValue.textContent = priceInput.value;
+    // Añadir al carrito
+    document.querySelectorAll(".add-to-cart").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const card = btn.closest(".product-card");
+            const id = card.dataset.id;
+            const existente = carrito.find(p => p.id === id);
+
+            if (existente) {
+                existente.cantidad++;
+            } else {
+                carrito.push({
+                    id: id,
+                    nombre: card.dataset.nombre,
+                    precio: parseFloat(card.dataset.precio),
+                    img: card.dataset.img,
+                    cantidad: 1
+                });
+            }
+            actualizarCarrito();
         });
-
-        document.addEventListener('DOMContentLoaded', () => {
-    const products = Array.from(document.querySelectorAll('.product-card'));
-    const productsPerPage = 6; // Número de productos por página
-    let currentPage = 1;
-    const totalPages = Math.ceil(products.length / productsPerPage);
-
-    const paginationContainer = document.querySelector('.pagination');
-    const prevPageBtn = document.getElementById('prev-page');
-    const nextPageBtn = document.getElementById('next-page');
-
-    // Función para generar los números de página
-    const generatePagination = () => {
-        // Eliminar todos los números de página actuales
-        const pageNumbers = paginationContainer.querySelectorAll('.page-item.number');
-        pageNumbers.forEach(page => page.remove());
-
-        // Generar nuevos números de página
-        for (let i = 1; i <= totalPages; i++) {
-            const pageItem = document.createElement('li');
-            pageItem.className = `page-item number ${i === currentPage ? 'active' : ''}`;
-            pageItem.innerHTML = <a class="page-link text-danger" href="#">${i}</a>;
-            pageItem.addEventListener('click', () => {
-                currentPage = i;
-                updatePagination();
-            });
-            paginationContainer.insertBefore(pageItem, nextPageBtn);
-        }
-    };
-
-    // Función para actualizar la paginación
-    const updatePagination = () => {
-        // Mostrar solo los productos de la página actual
-        products.forEach((product, index) => {
-            const startIndex = (currentPage - 1) * productsPerPage;
-            const endIndex = startIndex + productsPerPage;
-
-            product.style.display = index >= startIndex && index < endIndex ? 'block' : 'none';
-        });
-
-        // Actualizar botones "Anterior" y "Siguiente"
-        prevPageBtn.classList.toggle('disabled', currentPage === 1);
-        nextPageBtn.classList.toggle('disabled', currentPage === totalPages);
-
-        // Actualizar la clase activa de los números de página
-        generatePagination();
-    };
-
-    // Eventos para los botones "Anterior" y "Siguiente"
-    prevPageBtn.addEventListener('click', () => {
-        if (currentPage > 1) {
-            currentPage--;
-            updatePagination();
-        }
     });
 
-    nextPageBtn.addEventListener('click', () => {
-        if (currentPage < totalPages) {
-            currentPage++;
-            updatePagination();
+    // Actualizar carrito
+    function actualizarCarrito() {
+        cartCount.textContent = carrito.reduce((sum, p) => sum + p.cantidad, 0);
+
+        if (carrito.length === 0) {
+            cartItems.innerHTML = "<p>Tu carrito está vacío</p>";
+            cartTotal.textContent = "0";
+            return;
         }
+
+        cartItems.innerHTML = carrito.map((p, i) =>
+            `<div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                <div>
+                    <img src="${p.img}" style="width:40px; height:40px; object-fit:cover;"> 
+                    ${p.nombre} - $${p.precio}
+                </div>
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-sm btn-warning me-2" onclick="cambiarCantidad(${i}, -1)">-</button>
+                    <span>${p.cantidad}</span>
+                    <button class="btn btn-sm btn-primary ms-2" onclick="cambiarCantidad(${i}, 1)">+</button>
+                </div>
+                <strong>$${(p.precio * p.cantidad).toFixed(2)}</strong>
+            </div>`
+        ).join("");
+
+        const total = carrito.reduce((sum, p) => sum + p.precio * p.cantidad, 0);
+        cartTotal.textContent = total.toFixed(2);
+    }
+
+    // Cambiar cantidad
+    function cambiarCantidad(index, delta) {
+        carrito[index].cantidad += delta;
+        if (carrito[index].cantidad <= 0) {
+            carrito.splice(index, 1);
+        }
+        actualizarCarrito();
+    }
+
+    // Abrir modal
+    document.querySelector(".cart-icon").addEventListener("click", () => {
+        const modal = new bootstrap.Modal(document.getElementById("cartModal"));
+        modal.show();
     });
 
-    // Inicializar la paginación
-    generatePagination();
-    updatePagination();
+    document.getElementById("btn-finalizar").addEventListener("click", () => {
+    fetch("guardar-carrito.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(carrito)
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.ok) {
+            window.location.href = "ver-carrito.php"; // redirige al carrito en PHP
+        } else {
+            alert("Error al guardar el carrito");
+        }
+    })
+    .catch(err => console.error(err));
 });
-
-
-        // Elementos HTML
-        const categoryFilter = document.getElementById('category');
-        const applyFiltersButton = document.getElementById('apply-filters');
-        const productCards = document.querySelectorAll('.product-card');
-
-        // Evento para aplicar los filtros
-        applyFiltersButton.addEventListener('click', () => {
-            const selectedCategory = categoryFilter.value; // Obtiene la categoría seleccionada
-            
-            // Recorre todas las tarjetas de productos
-            productCards.forEach(card => {
-                const productCategory = card.getAttribute('data-category'); // Obtiene la categoría de cada tarjeta
-                
-                // Muestra u oculta la tarjeta según la categoría seleccionada
-                if (selectedCategory === 'todos' || productCategory === selectedCategory) {
-                    card.style.display = 'block'; // Muestra el producto
-                } else {
-                    card.style.display = 'none'; // Oculta el producto
-                }
-            });
-        });
-    </script>
+</script>
 </body>
 </html>

@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nombre'], $_POST['ape
     header("Location: interfaz-cliente.php?actualizado=1");
     exit();
 }
-
+// Traer datos del usuario y persona
 $sql = "SELECT u.nombre AS nombre_usuario, u.email, u.telefono, u.foto_usuario, 
                p.nombre AS nombre_persona, p.apellido, p.dni, p.fecha_nacimiento, p.genero, p.provincia, p.departamento, p.localidad, p.calle, p.altura, p.latitud, p.longitud
         FROM usuario u 
@@ -56,6 +56,41 @@ $stmt->bind_param("i", $id_usuario);
 $stmt->execute();
 $resultado = $stmt->get_result();
 $datos = $resultado->fetch_assoc();
+
+
+// ---------------------------
+// SECCIÓN MIS PEDIDOS
+// ---------------------------
+
+// Traer datos del usuario y persona
+$sql = "SELECT u.nombre AS nombre_usuario, u.email, u.telefono, u.foto_usuario,
+               p.nombre AS nombre_persona, p.apellido, p.dni, p.fecha_nacimiento, p.genero,
+               p.provincia, p.departamento, p.localidad, p.calle, p.altura
+        FROM usuario u
+        INNER JOIN persona p ON u.id_persona = p.id_persona
+        WHERE u.id_usuario = ?";
+
+$stmt = $conexion->prepare($sql);
+if (!$stmt) {
+    die("Error en prepare: " . $conexion->error);
+}
+$stmt->bind_param("i", $id_usuario);
+$stmt->execute();
+$resultado = $stmt->get_result();
+$datos_usuario = $resultado->fetch_assoc();
+$stmt->close();
+
+// Traer pedidos del usuario
+$sql_pedidos = "SELECT id_venta, total, tipo_pago, fecha FROM ventas WHERE id_usuario = ? ORDER BY fecha DESC";
+$stmt = $conexion->prepare($sql_pedidos);
+if (!$stmt) {
+    die("Error en prepare pedidos: " . $conexion->error);
+}
+$stmt->bind_param("i", $id_usuario);
+$stmt->execute();
+$resultado_pedidos = $stmt->get_result();
+$pedidos = $resultado_pedidos->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
 ?>
 
 <!DOCTYPE html>
@@ -305,78 +340,40 @@ $datos = $resultado->fetch_assoc();
 
 
         <!-- Sección de Pedidos -->
-        <div class="card">
-            <div class="card-header">
-                <h3>Mis Pedidos</h3>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-hover table-bordered">
-                    <thead class="table-dark">
+        <div class="card mt-4">
+        <div class="card-header">
+            <h3>Mis Pedidos</h3>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th># Pedido</th>
+                        <th>Fecha</th>
+                        <th>Total</th>
+                        <th>Tipo de Pago</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if ($pedidos): ?>
+                        <?php foreach ($pedidos as $pedido): ?>
+                            <tr>
+                                <td><?= $pedido['id_venta'] ?></td>
+                                <td><?= date("d/m/Y H:i", strtotime($pedido['fecha'])) ?></td>
+                                <td>$<?= number_format($pedido['total'], 2, ',', '.') ?></td>
+                                <td><?= ucfirst($pedido['tipo_pago']) ?></td>
+                                <td>
+                                    <a href="detalle-venta.php?id_venta=<?= $pedido['id_venta'] ?>" class="btn btn-info btn-sm">Ver detalle</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
                         <tr>
-                            <th># Pedido</th>
-                            <th>Fecha</th>
-                            <th>Productos</th>
-                            <th>Total</th>
-                            <th>Estado</th>
+                            <td colspan="5" class="text-center">No hay pedidos realizados.</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>12345</td>
-                            <td>05/11/2024</td>
-                            <td>
-                                <ul>
-                                    <li>Carpa AndeSport X1</li>
-                                    <li>Mochila Aventura 65L</li>
-                                </ul>
-                            </td>
-                            <td>$500</td>
-                            <td><span class="badge bg-warning text-dark">Pendiente</span></td>
-                        </tr>
-                        <tr>
-                            <td>12346</td>
-                            <td>01/11/2024</td>
-                            <td>
-                                <ul>
-                                    <li>Calzado Trekking</li>
-                                </ul>
-                            </td>
-                            <td>$150</td>
-                            <td><span class="badge bg-primary">En Camino</span></td>
-                        </tr>
-                        <tr>
-                            <td>12347</td>
-                            <td>28/10/2024</td>
-                            <td>
-                                <ul>
-                                    <li>Gorra UV Protección</li>
-                                    <li>Botella de Agua 1L</li>
-                                </ul>
-                            </td>
-                            <td>$80</td>
-                            <td><span class="badge bg-secondary">Entregado</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center mt-3">
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+                    <?php endif; ?>
+                </tbody>
+            </table>
         </div>
     </div>
 
